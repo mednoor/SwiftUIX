@@ -21,8 +21,15 @@ public struct CocoaScrollViewConfiguration<Content: View>: ExpressibleByNilLiter
     var isPagingEnabled: Bool = false
     var isScrollEnabled: Bool = true
     
+    var scrollIndicatorScheme: UIScrollView.IndicatorStyle = .default
+    var scrollToTop: Bool = true
+    var bouncesZoom: Bool = false
+    var scrollZoomScale: (minimum: CGFloat, maximum: CGFloat) = (1, 1)
+    
     var onOffsetChange: ((ScrollView<Content>.ContentOffset) -> ())?
     var onDragEnd: (() -> Void)?
+    var onZoom: ((_ zoomScale: CGFloat) -> Void)?
+    var onZoomEnd: ((_ zoomScale: CGFloat) -> Void)?
     var contentOffset: Binding<CGPoint>? = nil
     
     var contentInset: EdgeInsets = .zero
@@ -70,6 +77,8 @@ extension CocoaScrollViewConfiguration {
             showsHorizontalScrollIndicator = !scrollIndicatorStyle.horizontal
         } else if let scrollIndicatorStyle = environment.scrollIndicatorStyle as? InsetScrollViewIndicatorStyle {
             scrollIndicatorInsets = scrollIndicatorStyle.insets
+        } else if let scrollIndicatorStyle = environment.scrollIndicatorStyle as? SchemeScrollViewIndicatorStyle {
+            scrollIndicatorScheme = scrollIndicatorStyle.style
         }
     }
 }
@@ -127,6 +136,12 @@ extension UIScrollView {
         _assignIfNotEqual(.init(configuration.scrollIndicatorInsets.vertical), to: \.verticalScrollIndicatorInsets)
         _assignIfNotEqual(configuration.decelerationRate, to: \.decelerationRate)
         _assignIfNotEqual(.init(configuration.contentInset), to: \.contentInset)
+        
+        _assignIfNotEqual(configuration.scrollIndicatorScheme, to: \.indicatorStyle)
+        _assignIfNotEqual(configuration.bouncesZoom, to: \.bouncesZoom)
+        _assignIfNotEqual(configuration.scrollToTop, to: \.scrollsToTop)
+        _assignIfNotEqual(configuration.scrollZoomScale.minimum, to: \.minimumZoomScale)
+        _assignIfNotEqual(configuration.scrollZoomScale.maximum, to: \.maximumZoomScale)
         
         if let contentInsetAdjustmentBehavior = configuration.contentInsetAdjustmentBehavior {
             self.contentInsetAdjustmentBehavior = contentInsetAdjustmentBehavior

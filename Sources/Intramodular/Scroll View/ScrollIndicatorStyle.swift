@@ -56,6 +56,15 @@ public struct InsetScrollViewIndicatorStyle: Hashable, ScrollIndicatorStyle {
     }
 }
 
+/// A scroll indicator style that sets indicators scheme
+public struct SchemeScrollViewIndicatorStyle: Hashable, ScrollIndicatorStyle {
+    public let style: UIScrollView.IndicatorStyle
+    
+    public init(style: UIScrollView.IndicatorStyle = .default) {
+        self.style = style
+    }
+}
+
 extension View {
     public func scrollIndicatorStyle<Style: ScrollIndicatorStyle>(_ scrollIndicatorStyle: Style) -> some View {
         environment(\.scrollIndicatorStyle, scrollIndicatorStyle)
