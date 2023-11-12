@@ -77,6 +77,11 @@ open class UIHostingScrollView<Content: View>: UIScrollView, _opaque_UIHostingSc
         hostingContentView.rootView.base = nil
         
         addSubview(hostingContentView)
+        
+        // Double tap
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.onDoubleTap))
+        tapGesture.numberOfTapsRequired = 2
+        hostingContentView.addGestureRecognizer(tapGesture)
     }
     
     required public init?(coder: NSCoder) {
@@ -90,7 +95,12 @@ open class UIHostingScrollView<Content: View>: UIScrollView, _opaque_UIHostingSc
     public func contentOffset(forPageIndex pageIndex: Int) -> CGPoint {
         .zero
     }
-
+    
+    @objc
+    private func onDoubleTap() {
+        self.setZoomScale(1, animated: true)
+    }
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
 
