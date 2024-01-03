@@ -136,6 +136,7 @@ open class UIHostingScrollView<Content: View>: UIScrollView, _opaque_UIHostingSc
         if hostingContentView.frame == .zero {
             hostingContentView.frame.size = contentSize
             self.contentSize = contentSize
+            setZoomScale(configuration.initialZoomScale, animated: false)
         }
 
         hostingContentView.setNeedsDisplay()

@@ -112,6 +112,10 @@ extension CocoaScrollView {
         then({ $0.configuration.contentInset = contentInset })
     }
     
+    public func initialZoomScale(_ scale: CGFloat) -> Self {
+        then({ $0.configuration.initialZoomScale = scale })
+    }
+    
     @_disfavoredOverload
     public func contentInsets(_ insets: UIEdgeInsets) -> Self {
         contentInsets(EdgeInsets(insets))
