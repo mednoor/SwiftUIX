@@ -95,8 +95,16 @@ extension CocoaScrollView {
     public func onDragEnd(perform action: @escaping () -> Void) -> Self {
         then({ $0.configuration.onDragEnd = action })
     }
+    
+    public func onZoom(perform action: @escaping (_ zoomScale: CGFloat) -> Void) -> Self {
+        then({ $0.configuration.onZoom = action })
+    }
+    
+    public func onZoomEnd(perform action: @escaping (_ zoomScale: CGFloat) -> Void) -> Self {
+        then({ $0.configuration.onZoomEnd = action })
+    }
 
-    public func contentOffset(_ contentOffset: Binding<CGPoint>) -> Self {
+    public func contentOffset(_ contentOffset: Binding<CGPoint>?) -> Self {
         then({ $0.configuration.contentOffset = contentOffset })
     }
     
@@ -119,6 +127,22 @@ extension CocoaScrollView {
     /// Sets the deceleration rate for this scroll view.
     public func decelerationRate(_ decelerationRate: UIScrollView.DecelerationRate) -> Self {
         then({ $0.configuration.decelerationRate = decelerationRate })
+    }
+    
+    public func scrollToTop(_ scrollToTop: Bool) -> Self {
+        then({ $0.configuration.scrollToTop = scrollToTop })
+    }
+    
+    public func scrollBouncesZoom(_ bouncesZoom: Bool) -> Self {
+        then({ $0.configuration.bouncesZoom = bouncesZoom })
+    }
+    
+    public func scrollZoomScale(_ scale: (minimum: CGFloat, maximum: CGFloat)) -> Self {
+        then({ $0.configuration.scrollZoomScale = scale })
+    }
+    
+    public func panGestureRecognizer(_ value: (minNumberOfTouches: Int, maxNumberOfTouches: Int)) -> Self {
+        then({ $0.configuration.panGestureRecognizer = value })
     }
 }
 

@@ -90,7 +90,7 @@ open class UIHostingScrollView<Content: View>: UIScrollView, _opaque_UIHostingSc
     public func contentOffset(forPageIndex pageIndex: Int) -> CGPoint {
         .zero
     }
-
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -133,9 +133,10 @@ open class UIHostingScrollView<Content: View>: UIScrollView, _opaque_UIHostingSc
             return
         }
         
-        hostingContentView.frame.size = contentSize
-       
-        self.contentSize = contentSize
+        if hostingContentView.frame == .zero {
+            hostingContentView.frame.size = contentSize
+            self.contentSize = contentSize
+        }
 
         hostingContentView.setNeedsDisplay()
         hostingContentView.setNeedsLayout()
@@ -253,6 +254,27 @@ open class UIHostingScrollView<Content: View>: UIScrollView, _opaque_UIHostingSc
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         configuration.onDragEnd?()
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        configuration.onDragEnd?()
+    }
+    
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        guard !_isUpdating else {
+            return nil
+        }
+        return hostingContentView
+    }
+    
+    public func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        configuration.onZoom?(scrollView.zoomScale)
+    }
+    
+    public func scrollViewDidEndZooming(_ scrollView: UIScrollView,
+                                        with view: UIView?,
+                                        atScale scale: CGFloat) {
+        configuration.onZoomEnd?(scale)
     }
 }
 
