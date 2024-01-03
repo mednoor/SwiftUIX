@@ -140,6 +140,10 @@ extension CocoaScrollView {
     public func scrollZoomScale(_ scale: (minimum: CGFloat, maximum: CGFloat)) -> Self {
         then({ $0.configuration.scrollZoomScale = scale })
     }
+    
+    public func panGestureRecognizer(_ value: (minNumberOfTouches: Int, maxNumberOfTouches: Int)) -> Self {
+        then({ $0.configuration.panGestureRecognizer = value })
+    }
 }
 
 @available(tvOS, unavailable)

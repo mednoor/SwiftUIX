@@ -25,6 +25,7 @@ public struct CocoaScrollViewConfiguration<Content: View>: ExpressibleByNilLiter
     var scrollToTop: Bool = true
     var bouncesZoom: Bool = false
     var scrollZoomScale: (minimum: CGFloat, maximum: CGFloat) = (1, 1)
+    var panGestureRecognizer: (minNumberOfTouches: Int, maxNumberOfTouches: Int) = (1, Int.max)
     
     var onOffsetChange: ((ScrollView<Content>.ContentOffset) -> ())?
     var onDragEnd: (() -> Void)?
@@ -142,6 +143,8 @@ extension UIScrollView {
         _assignIfNotEqual(configuration.scrollToTop, to: \.scrollsToTop)
         _assignIfNotEqual(configuration.scrollZoomScale.minimum, to: \.minimumZoomScale)
         _assignIfNotEqual(configuration.scrollZoomScale.maximum, to: \.maximumZoomScale)
+        _assignIfNotEqual(configuration.panGestureRecognizer.minNumberOfTouches, to: \.panGestureRecognizer.minimumNumberOfTouches)
+        _assignIfNotEqual(configuration.panGestureRecognizer.maxNumberOfTouches, to: \.panGestureRecognizer.maximumNumberOfTouches)
         
         if let contentInsetAdjustmentBehavior = configuration.contentInsetAdjustmentBehavior {
             self.contentInsetAdjustmentBehavior = contentInsetAdjustmentBehavior
